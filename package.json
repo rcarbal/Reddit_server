@@ -18,6 +18,7 @@
   "homepage": "https://github.com/rcarbal/Reddit_server#readme",
   "dependencies": {
     "express": "^4.16.4",
+    "mongodb": "^3.2.3",
     "xmlhttprequest": "^1.8.0"
   }
 }

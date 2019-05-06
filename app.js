@@ -3,8 +3,14 @@ const express = require('express'),
 
 const app = express();
 
-console.log(apiCall.loadDoc());
+// INDEX ROUTE
+app.get("/index/json", (req, res)=>{
+    res.send("HERE IS THE JSON")
+});
 
-app.listen(process.env.PORT, process.env.IP, ()=>{
+
+
+app.listen(8000, ()=>{
     console.log("Reddit Server Started");
+
 });
