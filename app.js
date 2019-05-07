@@ -8,9 +8,11 @@ app.get("/index/json", (req, res)=>{
     res.send("HERE IS THE JSON");
 });
 
+console.log(apiCall.loadDoc());
 
 
-app.listen(8000, ()=>{
-    console.log("Reddit Server Started");
 
-});
+// app.listen(8000, ()=>{
+//     console.log("Reddit Server Started");
+
+// });
