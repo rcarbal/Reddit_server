@@ -10,7 +10,7 @@ function loadDoc() {
           return response;
       }
     };
-    xhttp.open("GET", "https://www.reddit.com/r/popular/top/.json?count=100", true);
+    xhttp.open("GET", "https://www.reddit.com/r/popular/top/.json?count=24", true);
     xhttp.send();
   }
 

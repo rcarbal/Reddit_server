@@ -5,7 +5,7 @@ const app = express();
 
 // INDEX ROUTE
 app.get("/index/json", (req, res)=>{
-    res.send("HERE IS THE JSON")
+    res.send("HERE IS THE JSON");
 });
 
 
