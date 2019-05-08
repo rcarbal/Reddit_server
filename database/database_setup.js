@@ -130,9 +130,6 @@ function retrievePost(callback) {
       console.log("ERROR FOUND");
       console.log(err);
     } else {
-      console.log("ALLL THE POSTS");
-      console.log(posts);
-
       //convert post to JSON OBJECT
       convertToJSON(posts, callback);
     }
