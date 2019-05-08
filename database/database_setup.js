@@ -11,14 +11,15 @@ let postSchema = new mongoose.Schema({
   title: String,
   hint: String,
   thumbnail: String,
-  fallback_url: String
+  fallback: String
 });
 
 // DATABASE CONNECT
 let Post = mongoose.model("Post", postSchema);
 mongoose.connect("mongodb://localhost:27017/reddit_posts", { useNewUrlParser: true }, () => {
   console.log("Connected to MongoDB");
-  loadDoc();
+  //loadDoc();
+  //retrievePost();
 });
 
 // Get response api respinse
@@ -90,8 +91,7 @@ function saveToDatabase(postArray) {
       url = postArray[i]["url"],
       title = postArray[i]["title"],
       hint = postArray[i]["hint"],
-      thumbnail = postArray[i]["thumbnail"],
-      fallback = postArray[i]["fallback_url"];
+      thumbnail = postArray[i]["thumbnail"];
 
     let postSetup = {
       author: author,
@@ -102,8 +102,8 @@ function saveToDatabase(postArray) {
       hint: hint,
       thumbnail: thumbnail,
     }
-    if (hasFallback) {
-      postSetup.fallback = fallback;
+    if (hasFallback) {      
+      postSetup.fallback = postArray[i]["fallback_url"];;
     }
 
     // Created post from schema
@@ -112,7 +112,7 @@ function saveToDatabase(postArray) {
   }
 }
 
-function addPostToDatabase(newPost){
+function addPostToDatabase(newPost) {
   newPost.save(function (error, post) {
     if (error) {
       console.log("SOMETHING WENT WRONG" + error);
@@ -122,13 +122,27 @@ function addPostToDatabase(newPost){
     }
   });
 }
-// Retrieve post from the database
-// Post.find({}, function(err, posts){
-//     if(err){
-//         console.log("ERROR FOUND");
-//         console.log(err);
-//     }else{
-//         console.log("ALLL THE POSTS");
-//         console.log(posts);
-//     }
-// })
+
+// RETRIEVE POST FROM DATABASE
+function retrievePost(callback) {
+  Post.find({}, function (err, posts) {
+    if (err) {
+      console.log("ERROR FOUND");
+      console.log(err);
+    } else {
+      console.log("ALLL THE POSTS");
+      console.log(posts);
+
+      //convert post to JSON OBJECT
+      convertToJSON(posts, callback);
+    }
+  });  
+}
+
+function convertToJSON(jsonObject, callback){
+  let jsonString = JSON.stringify(jsonObject);
+  callback(jsonString);
+}
+module.exports = {
+  retrievePost
+}

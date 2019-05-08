@@ -1,18 +1,19 @@
 const express = require('express'),
-      apiCall = require('./api_call/call_reddit_api.js');
+      apiCall = require('./database/database_setup.js');
 
 const app = express();
 
 // INDEX ROUTE
 app.get("/index/json", (req, res)=>{
-    res.send("HERE IS THE JSON");
+    let sendResponse = (string)=>{
+        res.status(200).send(string);
+    }
+    apiCall.retrievePost(sendResponse);
 });
 
-console.log(apiCall.loadDoc());
 
 
+app.listen(8000, ()=>{
+    console.log("Reddit Server Started");
 
-// app.listen(8000, ()=>{
-//     console.log("Reddit Server Started");
-
-// });
+});
