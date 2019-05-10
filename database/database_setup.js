@@ -102,7 +102,7 @@ function saveToDatabase(postArray) {
       hint: hint,
       thumbnail: thumbnail,
     }
-    if (hasFallback) {      
+    if (hasFallback) {
       postSetup.fallback = postArray[i]["fallback_url"];;
     }
 
@@ -112,13 +112,41 @@ function saveToDatabase(postArray) {
   }
 }
 
-function addPostToDatabase(newPost) {
+function addSinglePost(req, callback) {
+  let fallback = "No fall_back",
+    author = "No Author Yet",
+    created = 0,
+    subreddit_prefix = "No Subreddit Yet",
+    url = req.body.url,
+    title = req.body.post,
+    hint = "image",
+    thumbnail = "No thumbnail";
+
+  let postSetup = {
+    author: author,
+    created: created,
+    subreddit_prefix: subreddit_prefix,
+    url: url,
+    title: title,
+    hint: hint,
+    thumbnail: thumbnail
+  }
+  let newPost = Post(postSetup);
+  addPostToDatabase(newPost, callback);
+    
+}
+
+function addPostToDatabase(newPost, callback) {
   newPost.save(function (error, post) {
     if (error) {
       console.log("SOMETHING WENT WRONG" + error);
     } else {
       console.log("WE JUST SAVED A POST TO THE DATABASE");
       console.log(post);
+      console.log(callback);
+      if(callback !== undefined){
+        callback();
+      }
     }
   });
 }
@@ -133,13 +161,14 @@ function retrievePost(callback) {
       //convert post to JSON OBJECT
       convertToJSON(posts, callback);
     }
-  });  
+  });
 }
 
-function convertToJSON(jsonObject, callback){
+function convertToJSON(jsonObject, callback) {
   let jsonString = JSON.stringify(jsonObject);
   callback(jsonString);
 }
 module.exports = {
-  retrievePost
+  retrievePost,
+  addSinglePost
 }

@@ -37,7 +37,7 @@ function loadDoc() {
       convertToJSON(this.responseText);
     }
   };
-  xhttp.open("GET", "http://localhost:8000/index/json", true);
+  xhttp.open("GET", "/index/json", true);
   xhttp.send();
 }
 

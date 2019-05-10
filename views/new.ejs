@@ -2,19 +2,19 @@
    <% include partials/header %>
    <h1 style="text-align: center;">Create an New Post</h1>
     <div class="container">
-        <form>
+        <form action="/index/new" method="POST">
             <div class="form-group">
                 <label for="posttext">Post Text</label>
-                <input type="email" class="form-control" id="posttext" aria-describedby="emailHelp"
+                <input type="text" class="form-control" name="post" id="posttext" aria-describedby="emailHelp"
                     placeholder="Post Content">
             </div>
             <div class="form-group">
                 <label for="url">Image Url</label>
-                <input type="password" class="form-control" id="url" placeholder="Image URL">
+                <input type="url" class="form-control" name="url" id="url" placeholder="Image URL">
             </div>
             <div class="form-group form-check">
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button class="btn btn-lg btn-primary btn-block">Submit</button>
         </form>
     </div>
 

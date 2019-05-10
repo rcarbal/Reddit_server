@@ -1,17 +1,13 @@
 const express = require('express'),
       apiCall = require('./database/database_setup.js'),
+      methodOverride = require("method-override"),
+      bodyParser = require("body-parser"),
       app = express();
-      path = require('path');
 
+;
 app.use(express.static('public'));
-
-// INDEX ROUTE
-app.get("/", (req, res)=>{
-    console.log("200 HTTP GET NEW POST Request was made " + getTimeStamp());
-    // res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
-    // res.status(200)
-    res.sendFile('index.html')
-});
+app.use(methodOverride("_method"));
+app.use(bodyParser.urlencoded({extended: true}));
 
 //JSON RESPONSE ROUTE
 app.get("/index/json", (req, res)=>{
@@ -24,12 +20,31 @@ app.get("/index/json", (req, res)=>{
     apiCall.retrievePost(sendResponse);
 });
 
+// INDEX ROUTE
+app.get("/", (req, res)=>{
+    console.log("200 HTTP GET NEW POST Request was made " + getTimeStamp());
+    // res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
+    // res.status(200)
+    res.sendFile('index.html')
+});
+
+
 // ROUTE ADD NEW POST
 app.get("/index/new", (req, res)=>{
     console.log("200 HTTP GET NEW POST Request was made " + getTimeStamp());
     res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
     res.status(200)
     .render("new.ejs")
+});
+
+app.post("/index/new", (req, res) =>{
+    console.log("200 HTTP POST NEW Post Request was made " + getTimeStamp());
+    let callback = ()=>{
+        console.log("Redirecting")
+        res.redirect("/");
+    }
+    apiCall.addSinglePost(req, callback)
+    
 });
 
 // ROUTE EDIT POST
