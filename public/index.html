@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" type="image/x-icon" href="./reddit_9tp_icon.ico" />
+    <title>Reddit Clone</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+        integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,500" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- PRIMARY NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-custom sticky-top pt-0 d-flex justify-content-between">
+        <div>
+            <a class="navbar-brand" href="#">
+                <img src="./assets/images/redilog.png"
+                    class="d-inline-block align-top navbar-collapse navbar-custom__brand" alt="">
+            </a>
+
+        </div>
+
+        <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-chart-line icon-blue float-left pr-2"></i>
+                <span class="float-left">Popular</span>
+                <i class="fas fa-sign-out-alt" id="side-menu-btn"></i>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <div class="drowpdown-item">
+                    <input class="" type="search" placeholder="Filter" aria-label="Search">
+                </div>
+                <div>
+                    Reddit Feeds
+                </div>
+                <a class="dropdown-item" href="#">
+                    <i class="fas fa-chart-line icon-blue"></i>
+                    Popular
+                </a>
+                <a class="dropdown-item" href="#">
+                    <i class="far fa-chart-bar icon-blue"></i>
+                    All
+                </a>
+                <a class="dropdown-item" href="#">
+                    <i class="fas fa-box icon-blue"></i>
+                    Original Content
+                </a>
+                <div>
+                    Other
+                </div>
+                <a class="dropdown-item" href="#">
+                    <i class="fas fa-coins"></i>
+                    Coins
+                </a>
+                <a class="dropdown-item" href="#">
+                    <i class="far fa-gem"></i>
+                    Premium
+                </a>
+            </div>
+        </div>
+
+        <div class="nav-item navbar-custom__search--set_width">
+            <!--PRIMARY NAV SEARCH -->
+            <form class="form-inline my-2 my-lg-0"></form>
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            </form>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-chart-line" data-toggle="tooltip" title="Popular"></i>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-chart-bar" data-toggle="tooltip" title="All"></i>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-box" data-toggle="tooltip" title="Original Content"></i>
+        </div>
+        <div class="nav-item">
+            <button type="button" class="btn btn-outline-primary">Login</button>
+        </div>
+        <div class="nav-item">
+            <button type="button" class="btn btn-primary">Sign up</button>
+        </div>
+        <div class="nav-item">
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-user"></i>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <div>
+                        View Options
+                    </div>
+                    <a class="dropdown-item" href="#">
+                        <i class="fas fa-moon"></i>
+                        Night Mode
+                    </a>
+                    <div>
+                        View Options
+                    </div>
+                    <a class="dropdown-item" href="#">
+                        <i class="fas fa-coins"></i>
+                        Reddit Coins
+                    </a>
+                    </a>
+                    <a class="dropdown-item" href="#">
+                        <i class="far fa-gem"></i>
+                        Reddit Premium
+                    </a>
+                    <a class="dropdown-item" href="#">
+                        <i class="far fa-question-circle"></i>
+                        Help Center
+                    </a>
+                    <a class="dropdown-item" href="#">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Login / Sign Up
+                    </a>
+
+                </div>
+            </div>
+
+    </nav>
+
+    <div class="wrapper">
+        <!-- SIDEBAR -->
+        <div class="sidebar sidebar--not_active">
+            <nav class="">
+                <div class="sidebar-header">
+                    <div>My Communities <i class="fas fa-times" id="side-close"></i></div>
+                </div>
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <div>Reddit Feeds</div>
+                <ul class="unstyled-list components">
+                    <li>
+                        <i class="fas fa-chart-line"></i>
+                        Popular
+                    </li>
+                    <li>
+                        <i class="far fa-chart-bar"></i>
+                        All
+                    </li>
+                    <li>
+                        <i class="fas fa-box"></i>
+                        Original Content
+                    </li>
+                </ul>
+
+                <div>Other</div>
+
+                <ul>
+                    <li>
+                        <i class="fas fa-coins"></i>
+                        Coins
+                    </li>
+                    <li>
+                        <i class="far fa-gem"></i>
+                        Premium
+                    </li>
+                </ul>
+            </nav>
+
+
+        </div>
+        <!-- CONTENT -->
+        <div class="content">
+            <!-- SECOND NAVBAR -->
+            <nav class="navbar navbar-expand-lg navbar-custom second_nav">
+                <div class="container">
+                    <div class="d-flex justify-content-around ml-3 second_nav--half_spacing">
+                        <div class="nav-item">
+                            view
+                        </div>
+                        <div class="nav-item">
+                            <i class="fas fa-th-list"></i>
+                        </div>
+                        <div class="nav-item">
+                            <i class="fas fa-bars"></i>
+                        </div>
+                        <div class="nav-item">
+                            <i class="fas fa-align-justify"></i>
+                        </div>
+
+                        <div>
+                        </div>
+
+
+                        <div class="dropdown nav-item">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-burn"></i>
+                                Popular
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="#">Action</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                            </div>
+                        </div>
+
+                        <div class="dropdown nav-item">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                united states
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="#">Action</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                            </div>
+                        </div>
+
+                        <div class="dropdown nav-item">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                all states
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="#">Action</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </nav>
+
+            <!-- POST INFORMATION -->
+            <div class="container pt-4">
+                <div class="row">
+
+                    <!-- MAIN POST LIST -->
+                    <ul class="col-8 post-list">
+                        <li class="post-list__post">
+                            <div class="post-list__post__post-vote">
+                                <div class="post-list__post__post-vote__up-vote">
+                                    <i class="fas fa-arrow-up"></i>
+                                </div>
+                                <div class="post-list__post__post-vote__up-vote">
+                                    20.4k
+                                </div>
+                                <div class="post-list__post__post-vote__down-vote">
+                                    <i class="fas fa-arrow-down"></i>
+                                </div>
+                            </div>
+                            <div class="post-list_post__post-container">
+                                <div class="post-list_post__post-container__header post-list_post__post-container--padding">
+                                    <span class="pr-1">
+                                        <img src="https://styles.redditmedia.com/t5_2qh1i/styles/communityIcon_tijjpyw1qe201.png"
+                                        class="post-list_post__post-container__header__img">
+                                    </span>
+                                    <span class="font-weight-bold">
+                                        r/section
+                                    </span>
+                                    <span>
+                                        -Posted by
+                                    </span>
+                                    <span>
+                                        20 hours ago
+                                    </span>
+                                    <span>
+                                        <img data-toggle="tooltip"
+                                            title="This post has received the Silver award n times"
+                                            src="https://www.redditstatic.com/desktop2x/img/gold/badges/award-silver-cartoon.png"
+                                            height="15" alt="">
+                                    </span>
+                                    <span>
+                                        <img data-toggle="tooltip" title="This post has received the Gold award n times"
+                                            src="https://www.redditstatic.com/desktop2x/img/gold/badges/award-gold-cartoon.png"
+                                            height="15" alt="">
+                                    </span>
+                                    <span>
+                                        <img data-toggle="tooltip" title="This post has received the Platimum award"
+                                            src="https://www.redditstatic.com/desktop2x/img/gold/badges/award-platinum-cartoon.png"
+                                            height="15" alt="">
+                                    </span>
+                                    <button type="button" class="btn btn-primary btn-sm float-right pr-3"> +
+                                        JOIN
+                                    </button>
+                                </div>
+                                <div class="post-list_post__post-container__body post-list_post__post-container--padding">
+                                    <span class="font-weight-bold">
+                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis optio id
+                                        quisquam. Totam non facere minima sapiente deleniti quasi dolor dolorem,
+                                        eos
+                                        natus facilis at!
+                                    </span>
+                                    <img src="./assets/images/wxNkdKr.jpg" class="img-fluid" alt="Responsive image">
+                                </div>
+                                <div
+                                    class="post-list_post__post-container__footer post-list_post__post-container--padding">
+                                    <span class="share-section">
+                                        <span>
+                                            <span class="ml-2">
+                                                <i class="fas fa-comment-alt"></i>
+                                            </span>
+                                            <span>3.2k</span>
+                                            <span class="mr-2">Comments</span>
+                                        </span>
+
+                                        <span>
+
+                                            <span class="ml-2">
+                                                <i class="fas fa-share"></i>
+                                            </span>
+                                            <span class="mr-2">Share</span>
+                                        </span>
+                                        <span>
+                                            <span class="ml-2">
+                                                <i class="far fa-bookmark"></i>
+                                            </span>
+                                            <span>Save</span>
+                                        </span>
+
+                                        <span>
+
+                                            <span>...</span>
+                                        </span>
+
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="col-4 static-list">
+                        <!-- REDDIT SECTION CARD -->
+                        <li>
+                            <div class="card text-center static-list__section">
+                                <img src="https://www.redditstatic.com/desktop2x/img/id-cards/banner@2x.png"
+                                    class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Card title</h5>
+                                    <p class="card-text">Some quick example text to build on the card title and make
+                                        up
+                                        the
+                                        bulk of the card's content.</p>
+                                    <a href="http://localhost:8000/index/new" class="btn btn-primary post-btn">Create Post</a>
+                                </div>
+                            </div>
+                        </li>
+                        <!-- FIRST ADVERTISMENT -->
+                        <li>
+                            <div class="card static-list__advertisement">
+                                <p>Advertisement</p>
+                                <img src="./assets/images/add.png" class="card-img-top add" alt="...">
+                            </div>
+                        </li>
+                        <!-- PREMIUM -->
+                        <li>
+                            <div class="card static-list__premium">
+                                <div>
+                                    <img src="./assets/images/premium.png" alt="">
+                                </div>
+                                <div>
+                                    <div>
+                                        <div>Reddit Premium</div>
+                                        <div>The best Reddit experience,</div>
+                                        <div>with monthly Conins.</div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-danger btn-small try-now">Try Now</button>
+                                </div>
+                            </div>
+                        </li>
+                        <!-- TRENDING -->
+                        <li>
+                            <div class="card static-list__trending">
+                                <p>Trending</p>
+                                <div class="static-list__trending_container">
+                                    <div>
+                                        <img src="./assets/images/trend.png" alt="">
+                                    </div>
+                                    <div>
+                                        <div>reddit section</div>
+                                        <div>40.5K members</div>
+                                    </div>
+                                    <div>
+                                        <button type="button" class="btn btn-primary btn-small">Try Now</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </li>
+                        <!-- SECOND ADVERSTICEMENT -->
+                        <li>
+                            <div class="card static-list__advertisement">
+                                <p>Advertisement</p>
+                                <img src="./assets/images/add_small.png" class="card-img-top add" alt="...">
+                            </div>
+                        </li>
+                        <!-- PAGE ABOUT SECTION -->
+                        <li>
+                            <div class="card static-list_page-about">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <a href="#">About</a>
+                                        <a href="#">Career</a>
+                                        <a href="#">Press</a>
+                                    </div>
+                                    <div class="col-4">
+                                        <a href="#">Advertise</a>
+                                        <a href="#">Blog</a>
+                                        <a href="#">Help</a>
+                                    </div>
+                                    <div class="col-4">
+                                        <a href="#">The Reddit App</a>
+                                        <a href="#">Redit Coins</a>
+                                        <a href="#">Reddit Premium</a>
+                                        <a href="#">Reddit Gifts</a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">Content Policy| Privacy Policy</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">User Agreement| Mod Policy</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">© 2019 Reddit, Inc. All rights reserved</div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+    <script src="./js/app.js"></script>
+</body>
+
+</html>

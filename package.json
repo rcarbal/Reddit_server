@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/rcarbal/Reddit_server#readme",
   "dependencies": {
+    "ejs": "^2.6.1",
     "express": "^4.16.4",
     "mongodb": "^3.2.3",
     "mongoose": "^5.5.5",

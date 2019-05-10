@@ -1,0 +1,156 @@
+body{
+    background-color: #dae0e6;
+    font-family: 'IBM Plex Sans', sans-serif;
+}
+
+ul{
+    list-style: none;
+}
+
+.dropdown > button{
+    background-color: transparent;
+}
+
+ul > li {
+    padding-bottom: 10px;
+    margin-top: 10px;
+}
+
+.navbar-custom{
+    background-color: #ffffff;
+}
+
+.navbar-custom__brand{
+    height: 39px;;
+}
+
+.navbar-custom__search{
+
+}
+
+.navbar-custom__search--set_width{
+    width: 40%;
+}
+
+.wrapper{
+    display: flex;
+    width: 100%;
+}
+.sidebar{
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    background: #ffffff;
+    color: black;
+    transition: all 0s;
+}
+
+.sidebar--not_active{
+    margin-left: -250px;
+}
+
+.content{
+    height: 100%;
+    width: 100%;
+}
+
+.content--active_sidebar{
+    padding-left: 250px;
+}
+
+.second_nav{
+
+}
+.second_nav--half_spacing{
+    width: 50%;
+}
+
+/* POST STUCTURE */
+
+.post-list{
+
+}
+
+.post-list__post{
+    display:flex;
+    background-color: white;
+    transition: 0.1s;
+    border-radius: 10px;
+    border: 1px solid #c0c6cc;
+}
+
+.post-list__post__post-vote{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    background: #f8f9fa;
+    border-radius: 9px 0 0 9px;
+    padding: 10px;
+}
+
+.post-list__post__post-vote__up-vote{
+
+}
+
+.post-list__post__post-vote__count{
+
+}
+.post-list__post__post-vote__down-vote{
+
+}
+
+.post-list_post__post-container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.post-list_post__post-container__header{
+    margin-top: 5px;
+}
+
+.post-list_post__post-container__header__img{
+    height: 7vh;
+}
+
+.post-list_post__post-container__body{
+
+}
+
+.post-list_post__post-container__footer{
+    
+}
+.post-list_post__post-container--padding{
+    padding: 5px 10px 5px 10px;
+}
+
+/* STATIC LIST, ADVERTISEMENT, TRENDS */
+
+.static-list{
+
+}
+
+.static-list__section{
+
+}
+.static-list__advertisement{
+
+}
+
+.static-list__premium{
+    display: flex;
+    flex-direction: row;
+}
+
+.static-list__trending{
+}
+
+.static-list__trending_container{
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+.static-list_page-about{
+
+}
