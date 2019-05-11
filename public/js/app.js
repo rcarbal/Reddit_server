@@ -57,6 +57,7 @@ function parseJsonToArray(jsonObject) {
   for (let i = 0; i < jsonObject.length; i++) {
     let post = {};
     post.author = jsonObject[i]["author"];
+    post._id = jsonObject[i]["_id"];
     post.created = jsonObject[i]["created"];
     post.subreddit_name_prefixed = jsonObject[i]["subreddit_prefix"];
     post.url = jsonObject[i]["url"];
@@ -81,7 +82,7 @@ function appendPostToList(arr) {
     let vote = createPostVote()
     let postInfo = createPostInfoSection(arr[i])
     let postBody = createPostBody(arr[i]);
-    let postFooter = createPostFooter()
+    let postFooter = createPostFooter(arr[i]["_id"])
 
     post.appendChild(vote);
     post.appendChild(postInfo);
@@ -250,7 +251,7 @@ function createPostBody(postInfo) {
 
 }
 
-function createPostFooter() {
+function createPostFooter(id) {
   //Footer container
   let footer = document.createElement("div");
   footer.className="post-list_post__post-container__footer post-list_post__post-container--padding";
@@ -298,14 +299,14 @@ function createPostFooter() {
 
   //Edit post
   let editBtn = document.createElement("a");
-  editBtn.setAttribute('href', "http://localhost:8000/index/1/edit");
+  editBtn.setAttribute('href', `/index/${id}/edit`);
   editBtn.className = "btn btn-primary btn-sm float-right pr-3";
   editBtn.innerText = "Edit";
   
 
   //Delete post
   let delBtn = document.createElement("a");
-  delBtn.setAttribute('href', "http://localhost:8000/index/1/delete");
+  delBtn.setAttribute('href', "/index/1/delete");
   delBtn.className = "btn btn-danger btn-sm float-right ml-3";
   delBtn.innerText = "delete";
   

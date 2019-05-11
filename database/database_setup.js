@@ -86,6 +86,7 @@ function saveToDatabase(postArray) {
   for (var i = 0; i < postArray.length; i++) {
     let hasFallback = checkJsonProperty("database", postArray[i], "fallback_url");
     let author = postArray[i]["author"],
+      id = postArray[i]["id"],
       created = postArray[i]["created"],
       subreddit_prefix = postArray[i]["subreddit_name_prefixed"],
       url = postArray[i]["url"],

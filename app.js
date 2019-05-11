@@ -49,10 +49,21 @@ app.post("/index/new", (req, res) =>{
 
 // ROUTE EDIT POST
 app.get("/index/:id/edit", (req, res)=>{
+    let id = req.params.id;
+    
     console.log("200 HTTP GET EDIT POST Request was made " + getTimeStamp());
     res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
     res.status(200)
-    .send("THIS IS THE EDIT ROUTE");
+    .render("edit.ejs", {id: id});
+});
+
+app.post("/index/:id/edit", (req, res)=>{
+    let id = req.params.id;
+    console.log(id);
+    console.log("200 HTTP GET EDIT POST Request was made " + getTimeStamp());
+    res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
+    res.status(200)
+    .send("This is the POST edit/post route")
 });
 
 //DELETE POST
