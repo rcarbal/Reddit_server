@@ -1,19 +1,19 @@
 const express = require('express'),
-      apiCall = require('./database/database_setup.js'),
-      methodOverride = require("method-override"),
-      bodyParser = require("body-parser"),
-      app = express();
+    apiCall = require('./database/database_setup.js'),
+    methodOverride = require("method-override"),
+    bodyParser = require("body-parser"),
+    app = express();
 
 ;
 app.use(express.static('public'));
 app.use(methodOverride("_method"));
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //JSON RESPONSE ROUTE
-app.get("/index/json", (req, res)=>{
-    console.log("200 HTTP GET JSON Request was made "  + getTimeStamp());
+app.get("/index/json", (req, res) => {
+    console.log("200 HTTP GET JSON Request was made " + getTimeStamp());
 
-    let sendResponse = (string)=>{
+    let sendResponse = (string) => {
         res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
         res.status(200).send(string);
     }
@@ -21,7 +21,7 @@ app.get("/index/json", (req, res)=>{
 });
 
 // INDEX ROUTE
-app.get("/", (req, res)=>{
+app.get("/", (req, res) => {
     console.log("200 HTTP GET NEW POST Request was made " + getTimeStamp());
     // res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
     // res.status(200)
@@ -30,60 +30,69 @@ app.get("/", (req, res)=>{
 
 
 // ROUTE ADD NEW POST
-app.get("/index/new", (req, res)=>{
+app.get("/index/new", (req, res) => {
     console.log("200 HTTP GET NEW POST Request was made " + getTimeStamp());
     res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
     res.status(200)
-    .render("new.ejs")
+        .render("new.ejs")
 });
 
-app.post("/index/new", (req, res) =>{
+app.post("/index/new", (req, res) => {
     console.log("200 HTTP POST NEW Post Request was made " + getTimeStamp());
-    let callback = ()=>{
+    let callback = () => {
         console.log("Redirecting")
         res.redirect("/");
     }
     apiCall.addSinglePost(req, callback)
-    
+
 });
 
 // ROUTE EDIT POST
-app.get("/index/:id/edit", (req, res)=>{
-    let id = req.params.id;
-    
+app.get("/index/:id/edit", (req, res) => {
     console.log("200 HTTP GET EDIT POST Request was made " + getTimeStamp());
-    res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
-    res.status(200)
-    .render("edit.ejs", {id: id});
+    let id = req.params.id;
+    let callback = (post) => {
+        res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
+        res.status(200)
+            .render("edit.ejs", { id: id, post: post });
+
+    }
+    apiCall.getSiglePost(id, callback)
 });
 
-app.post("/index/:id/edit", (req, res)=>{
-    let id = req.params.id;
-    console.log(id);
+app.post("/index/:id/edit", (req, res) => {
     console.log("200 HTTP GET EDIT POST Request was made " + getTimeStamp());
-    res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
-    res.status(200)
-    .send("This is the POST edit/post route")
+    let id = req.params.id;
+    let url = req.body.url;
+    let post = req.body.post;
+    
+    let callback = () => {
+        res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
+        res.status(200)
+            .redirect("/");
+    }
+    apiCall.updateSinglePost(id, url, post, callback)
+
 });
 
 //DELETE POST
-app.get("/index/:id/delete", (req, res)=>{
+app.get("/index/:id/delete", (req, res) => {
     console.log("200 HTTP GET DELETE POST Request was made " + getTimeStamp());
     res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
     res.status(200)
-    .send("THIS THE DELETE ROUTE");
+        .send("THIS THE DELETE ROUTE");
 });
 
-function getTimeStamp(){
+function getTimeStamp() {
     var currentDate = new Date();
     return currentDate;
 }
 
 
 
-app.listen(8000, ()=>{
+app.listen(8000, () => {
     console.log("Reddit Server Started");
 
 });
 
-app.listen()
+app.listen();

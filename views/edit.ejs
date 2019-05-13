@@ -4,12 +4,12 @@
      <form action="/index/<%=id%>/edit" method="POST">
          <div class="form-group">
              <label for="posttext">Post Text</label>
-             <input type="text" class="form-control" name="post" id="posttext" aria-describedby="emailHelp"
+             <input type="text" class="form-control" name="post" id="posttext" value="<%= post.title%>"
                  placeholder="Post Content">
          </div>
          <div class="form-group">
              <label for="url">Image Url</label>
-             <input type="url" class="form-control" name="url" id="url" placeholder="Image URL">
+             <input type="url" class="form-control" name="url" id="url" value="<%= post.url%>">
          </div>
          <div class="form-group form-check">
          </div>

@@ -137,6 +137,36 @@ function addSinglePost(req, callback) {
     
 }
 
+function getSiglePost(id, callback){
+  Post.findById(id, function(err, foundPost){
+    if(err){
+      console.log(err);
+    }else{
+      callback(foundPost);
+    }
+  })
+}
+
+function updateSinglePost(id,url,post, callback){
+  console.log("UPDATED INFORMATION");
+  console.log(post);
+  console.log(url);
+  console.log(id);
+
+  let object = {
+    title: post,
+    url: url
+  }
+  Post.findByIdAndUpdate(id, object, (err, updatedPost)=>{
+    if(err){
+      console.log(err);      
+    }else{
+      console.log("Updated post: " + updatedPost);
+      callback();
+    }
+  });
+}
+
 function addPostToDatabase(newPost, callback) {
   newPost.save(function (error, post) {
     if (error) {
@@ -171,5 +201,7 @@ function convertToJSON(jsonObject, callback) {
 }
 module.exports = {
   retrievePost,
-  addSinglePost
+  addSinglePost,
+  getSiglePost,
+  updateSinglePost
 }
