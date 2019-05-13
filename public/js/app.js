@@ -306,7 +306,7 @@ function createPostFooter(id) {
 
   //Delete post
   let delBtn = document.createElement("a");
-  delBtn.setAttribute('href', "/index/1/delete");
+  delBtn.setAttribute('href', `/index/${id}/delete`);
   delBtn.className = "btn btn-danger btn-sm float-right ml-3";
   delBtn.innerText = "delete";
   

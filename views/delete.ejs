@@ -1,0 +1,11 @@
+<% include partials/header %>
+<h1 style="text-align: center;">Delete Post</h1>
+ <div class="container">
+     <h1>Are you sure you want to delete: <%= title %>?</h1>
+     <form action="/index/<%=id%>/delete" method="POST">
+         <button class="btn btn-lg btn-primary btn-block">Yes</button>
+     </form>
+     <a href="/" class="btn btn-lg btn-secondary btn-block">Cancel</a>
+ </div>
+
+ <% include partials/footer %>

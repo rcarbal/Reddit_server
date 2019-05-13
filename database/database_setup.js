@@ -182,6 +182,18 @@ function addPostToDatabase(newPost, callback) {
   });
 }
 
+
+// Delete Post from Database
+function deletePost(id, callback){
+  Post.findByIdAndDelete(id, (err, post)=>{
+    if(err){
+      console.log(err);
+    }else{
+      callback();
+    }
+  })
+}
+
 // RETRIEVE POST FROM DATABASE
 function retrievePost(callback) {
   Post.find({}, function (err, posts) {
@@ -203,5 +215,6 @@ module.exports = {
   retrievePost,
   addSinglePost,
   getSiglePost,
-  updateSinglePost
+  updateSinglePost,
+  deletePost
 }

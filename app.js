@@ -65,7 +65,7 @@ app.post("/index/:id/edit", (req, res) => {
     let id = req.params.id;
     let url = req.body.url;
     let post = req.body.post;
-    
+
     let callback = () => {
         res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
         res.status(200)
@@ -76,11 +76,28 @@ app.post("/index/:id/edit", (req, res) => {
 });
 
 //DELETE POST
+
 app.get("/index/:id/delete", (req, res) => {
     console.log("200 HTTP GET DELETE POST Request was made " + getTimeStamp());
     res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
-    res.status(200)
-        .send("THIS THE DELETE ROUTE");
+    console.log("GET POST DELETE ROUTE");
+    let callback =(post)=>{
+        res.render('delete.ejs', { id: post.id, title: post.title });
+    }
+    apiCall.getSiglePost(req.params.id, callback)
+    
+    
+});
+app.post("/index/:id/delete", (req, res) => {
+    console.log("200 HTTP GET DELETE POST Request was made " + getTimeStamp());
+    res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
+    console.log("GET POST DELETE ROUTE");
+
+    let callback = ()=>{       
+        res.redirect('/');
+    }    
+    apiCall.deletePost(req.params.id, callback)
+    
 });
 
 function getTimeStamp() {
@@ -90,7 +107,7 @@ function getTimeStamp() {
 
 
 
-app.listen(8000, () => {
+app.listen(7000, () => {
     console.log("Reddit Server Started");
 
 });
