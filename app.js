@@ -1,16 +1,31 @@
 const express = require('express'),
-    apiCall = require('./database/database_setup.js'),
-    token = require('./utls/token_utils.js')
-    methodOverride = require("method-override"),
-    bodyParser = require("body-parser"),
-    flash = require("connect-flash");
-    app = express();
+      apiCall = require('./database/database_setup.js'),
+      token = require('./utls/token_utils.js'),
+      passport = require('passport'),
+      LocalStrategry = require('passport-local'),
+      methodOverride = require("method-override"),
+      bodyParser = require("body-parser"),
+      flash = require("connect-flash");
+      User = require("./model/user.js"),
+      app = express();
 
 ;
 app.use(express.static('public'));
 app.use(methodOverride("_method"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(flash());
+
+// Setup Express Sessions
+app.use(require("express-session")({
+    secret: "2QepxniwWin98fujitsu",
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategry(User.authenticate())) // auhtenticate() commes with local-mongoose
+passport.serializeUser(User.serializeUser());  // serialize and deserialize come with local-mongoose
+passport.deserializeUser(User.deserializeUser());
 
 //JSON RESPONSE ROUTE
 app.get("/index/json", (req, res) => {
@@ -110,10 +125,36 @@ app.post("/index/:id/delete", (req, res) => {
     
 });
 
+
+//=====================
+// AUTH ROUTES
+//=====================
+
+//show register
+app.get("/register", (req, res)=>{
+    res.render("register.ejs")
+});
+
+// Sign up logic
+app.post("/register", (req, res)=>{
+    let newUser = new User({username: req.body.username});
+    // Register stores the hash not the actual password.
+    User.register(newUser, req.body.password, function(err, user){
+        if(err){
+            console.log(err);
+            return res.render("register.ejs")
+        }
+        passport.authenticate("local")(req, res, function(){
+            res.redirect("/")
+        })
+    }); 
+});
+
 function getTimeStamp() {
     var currentDate = new Date();
     return currentDate;
 }
+;
 
 
 
