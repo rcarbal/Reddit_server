@@ -1,13 +1,16 @@
 const express = require('express'),
     apiCall = require('./database/database_setup.js'),
+    token = require('./utls/token_utils.js')
     methodOverride = require("method-override"),
     bodyParser = require("body-parser"),
+    flash = require("connect-flash");
     app = express();
 
 ;
 app.use(express.static('public'));
 app.use(methodOverride("_method"));
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(flash());
 
 //JSON RESPONSE ROUTE
 app.get("/index/json", (req, res) => {
@@ -19,6 +22,12 @@ app.get("/index/json", (req, res) => {
     }
     apiCall.retrievePost(sendResponse);
 });
+//Login route
+app.get("/login", (re, res)=>{
+
+    res.send("The current session state token is "+token.makeid(32));
+})
+
 
 // INDEX ROUTE
 app.get("/", (req, res) => {
@@ -40,7 +49,8 @@ app.get("/index/new", (req, res) => {
 app.post("/index/new", (req, res) => {
     console.log("200 HTTP POST NEW Post Request was made " + getTimeStamp());
     let callback = () => {
-        console.log("Redirecting")
+        console.log("Redirecting");
+        //req.flash("Added new post");
         res.redirect("/");
     }
     apiCall.addSinglePost(req, callback)
