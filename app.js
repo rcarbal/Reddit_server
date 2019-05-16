@@ -37,12 +37,6 @@ app.get("/index/json", (req, res) => {
     }
     apiCall.retrievePost(sendResponse);
 });
-//Login route
-app.get("/login", (re, res)=>{
-
-    res.send("The current session state token is "+token.makeid(32));
-})
-
 
 // INDEX ROUTE
 app.get("/", (req, res) => {
@@ -146,15 +140,28 @@ app.post("/register", (req, res)=>{
         }
         passport.authenticate("local")(req, res, function(){
             res.redirect("/")
-        })
+        });
     }); 
+});
+
+// Show login form
+app.get("/login", (req, res)=>{
+    res.render('login.ejs');
 });
 
 function getTimeStamp() {
     var currentDate = new Date();
     return currentDate;
-}
-;
+};
+
+// Handling login logic
+app.post("/login", passport.authenticate("local",
+    {
+        successRedirect: "/",
+        failureRedirect: "/login"
+    }),(req, res)=>{
+    res.send("LOGIN LOGIC HAPPENS HERE");
+});
 
 
 
