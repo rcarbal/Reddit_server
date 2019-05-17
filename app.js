@@ -48,7 +48,7 @@ app.get("/", (req, res) => {
 
 
 // ROUTE ADD NEW POST
-app.get("/index/new", (req, res) => {
+app.get("/index/new",isLoggedIn ,(req, res) => {
     console.log("200 HTTP GET NEW POST Request was made " + getTimeStamp());
     res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
     res.status(200)
@@ -162,6 +162,19 @@ app.post("/login", passport.authenticate("local",
     }),(req, res)=>{
     res.send("LOGIN LOGIC HAPPENS HERE");
 });
+
+// Logout Route
+app.get("/logout", (req, res)=>{
+    req.logout();
+    res.redirect("/");
+});
+
+function isLoggedIn(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    res.redirect("/login")
+}
 
 
 
