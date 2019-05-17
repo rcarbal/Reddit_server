@@ -55,7 +55,7 @@ app.get("/index/new",isLoggedIn ,(req, res) => {
         .render("new.ejs")
 });
 
-app.post("/index/new", (req, res) => {
+app.post("/index/new",isLoggedIn, (req, res) => {
     console.log("200 HTTP POST NEW Post Request was made " + getTimeStamp());
     let callback = () => {
         console.log("Redirecting");

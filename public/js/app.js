@@ -1,3 +1,5 @@
+import { getJSON } from './apiJsonCall.js'
+
 function setupToggleAndClicklistener() {
   console.log("CALLED setupToggleAndClickListener");
   $(document).ready(function () {
@@ -30,15 +32,16 @@ function setupToggleAndClicklistener() {
 
 // GET THE REDDIT RESPONSE
 function loadDoc() {
-  console.log("CALLED JSON")
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      convertToJSON(this.responseText);
-    }
-  };
-  xhttp.open("GET", "/index/json", true);
-  xhttp.send();
+  new Promise(function(resolve, reject){
+    getJSON(resolve, reject)
+  })
+  .then(data =>{
+    convertToJSON(data);
+  })
+  .catch(e =>{
+    console.log(e);
+  });
+  
 }
 
 
