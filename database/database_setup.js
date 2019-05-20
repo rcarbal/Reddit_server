@@ -195,21 +195,29 @@ function deletePost(id, callback){
 }
 
 // RETRIEVE POST FROM DATABASE
-function retrievePost(callback) {
+function retrievePost(callback, user) {
   Post.find({}, function (err, posts) {
     if (err) {
       console.log("ERROR FOUND");
       console.log(err);
     } else {
       //convert post to JSON OBJECT
-      convertToJSON(posts, callback);
+      convertToJSON(posts, callback, user);
     }
   });
 }
 
-function convertToJSON(jsonObject, callback) {
-  // console.log(jsonObject);
-  let jsonString = JSON.stringify(jsonObject);
+function convertToJSON(jsonObject, callback, user) {
+  let jsonConverted = JSON.parse(JSON.stringify(jsonObject));
+  
+  let userOb = {}
+  if (user !== undefined && user !== null){
+    userOb["user"] = user;
+  }else{
+    userOb["user"] = -1;
+  }
+  jsonConverted.push(userOb);
+  let jsonString = JSON.stringify(jsonConverted);
   callback(jsonString);
 }
 module.exports = {

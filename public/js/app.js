@@ -55,7 +55,8 @@ function convertToJSON(response) {
 
 //RETRIVES THE POST OBJECT FROM JSON RESPONSE
 function parseJsonToArray(jsonObject) {
-  console.log("CALLED parseJsonToArray");
+  let userInfo =jsonObject.pop();
+
   let returnArr = [];
   for (let i = 0; i < jsonObject.length; i++) {
     let post = {};
@@ -70,15 +71,26 @@ function parseJsonToArray(jsonObject) {
     if (checkJsonProperty(jsonObject[i], "fallback")) {
       post.fallback_url = jsonObject[i]["fallback"];
     }
-
+    
     returnArr.push(post);
   }
-
-  appendPostToList(returnArr);
+  appendPostToList(returnArr, userInfo);
 }
 
-function appendPostToList(arr) {
-  console.log("INSIDE APPEND");
+function appendPostToList(arr, user) {
+
+  // Set login status
+  if(user.user !== -1){
+    document.getElementById("log-out-btn").style.visibility = "visible";
+    document.getElementById("loginbtn").style.visibility = "hidden";
+    document.getElementById("signupbtn").style.visibility = "hidden";
+  }else{
+    document.getElementById("loginbtn").style.visibility = "visible";
+    document.getElementById("signupbtn").style.visibility = "visible";
+    document.getElementById("log-out-btn").style.visibility = "hidden";
+  }
+
+
   let list = document.querySelector(".post-list");
   for (let i = 0; i < arr.length; i++) {
     let post = createPostElement();

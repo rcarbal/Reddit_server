@@ -32,6 +32,10 @@ ul > li {
     width: 40%;
 }
 
+#log-out-btn, #loginbtn, #signupbtn{
+    visibility: hidden;
+}
+
 .wrapper{
     display: flex;
     width: 100%;

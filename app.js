@@ -40,12 +40,13 @@ app.get("/", (req, res) => {
 //JSON RESPONSE ROUTE
 app.get("/index/json", (req, res) => {
     console.log("200 HTTP GET JSON Request was made " + getTimeStamp());
-
+    let user = req.user;
     let sendResponse = (string) => {
+        
         res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
         res.status(200).send(string);
     }
-    apiCall.retrievePost(sendResponse);
+    apiCall.retrievePost(sendResponse, user);
 });
 
 
@@ -166,7 +167,7 @@ app.post("/login", passport.authenticate("local",
 
 // Logout Route
 app.get("/logout", (req, res)=>{
-    console.log("200 HTTP GET DELETE POST Request was made " + getTimeStamp());
+    console.log("200 HTTP GET LOGOUT Request was made " + getTimeStamp());
     req.logout();
     res.redirect("/");
 });
