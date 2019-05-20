@@ -7,9 +7,10 @@ const express = require('express'),
       bodyParser = require("body-parser"),
       flash = require("connect-flash");
       User = require("./model/user.js"),
+      path =require('path'),
       app = express();
 
-;
+app.set("view engine", "ejs");
 app.use(express.static('public'));
 app.use(methodOverride("_method"));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -27,6 +28,15 @@ passport.use(new LocalStrategry(User.authenticate())) // auhtenticate() commes w
 passport.serializeUser(User.serializeUser());  // serialize and deserialize come with local-mongoose
 passport.deserializeUser(User.deserializeUser());
 
+// INDEX ROUTE
+app.get("/", (req, res) => {
+    console.log(req.user);
+    console.log("200 HTTP GET NEW POST Request was made " + getTimeStamp());
+    res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
+    res.status(200)
+    res.sendFile('public/static_index.html', { root : __dirname});
+});
+
 //JSON RESPONSE ROUTE
 app.get("/index/json", (req, res) => {
     console.log("200 HTTP GET JSON Request was made " + getTimeStamp());
@@ -36,14 +46,6 @@ app.get("/index/json", (req, res) => {
         res.status(200).send(string);
     }
     apiCall.retrievePost(sendResponse);
-});
-
-// INDEX ROUTE
-app.get("/", (req, res) => {
-    console.log("200 HTTP GET NEW POST Request was made " + getTimeStamp());
-    // res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
-    // res.status(200)
-    res.sendFile('index.html')
 });
 
 
@@ -126,11 +128,13 @@ app.post("/index/:id/delete", (req, res) => {
 
 //show register
 app.get("/register", (req, res)=>{
+    console.log("200 HTTP GET REGISTER Request was made " + getTimeStamp());
     res.render("register.ejs")
 });
 
 // Sign up logic
 app.post("/register", (req, res)=>{
+    console.log("200 HTTP POST REGISTER Request was made " + getTimeStamp());
     let newUser = new User({username: req.body.username});
     // Register stores the hash not the actual password.
     User.register(newUser, req.body.password, function(err, user){
@@ -146,25 +150,23 @@ app.post("/register", (req, res)=>{
 
 // Show login form
 app.get("/login", (req, res)=>{
+    console.log("200 HTTP GET LOGIN Request was made " + getTimeStamp());
     res.render('login.ejs');
 });
 
-function getTimeStamp() {
-    var currentDate = new Date();
-    return currentDate;
-};
-
 // Handling login logic
 app.post("/login", passport.authenticate("local",
+
     {
         successRedirect: "/",
         failureRedirect: "/login"
     }),(req, res)=>{
-    res.send("LOGIN LOGIC HAPPENS HERE");
+        console.log("200 HTTP POST LOGIN Request was made " + getTimeStamp());
 });
 
 // Logout Route
 app.get("/logout", (req, res)=>{
+    console.log("200 HTTP GET DELETE POST Request was made " + getTimeStamp());
     req.logout();
     res.redirect("/");
 });
@@ -176,6 +178,10 @@ function isLoggedIn(req, res, next){
     res.redirect("/login")
 }
 
+function getTimeStamp() {
+    var currentDate = new Date();
+    return currentDate;
+};
 
 
 app.listen(7000, () => {

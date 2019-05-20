@@ -208,6 +208,7 @@ function retrievePost(callback) {
 }
 
 function convertToJSON(jsonObject, callback) {
+  // console.log(jsonObject);
   let jsonString = JSON.stringify(jsonObject);
   callback(jsonString);
 }
