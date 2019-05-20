@@ -61,8 +61,6 @@ app.get("/index/new",isLoggedIn ,(req, res) => {
 app.post("/index/new",isLoggedIn, (req, res) => {
     console.log("200 HTTP POST NEW Post Request was made " + getTimeStamp());
     let callback = () => {
-        console.log("Redirecting");
-        //req.flash("Added new post");
         res.redirect("/");
     }
     apiCall.addSinglePost(req, callback)

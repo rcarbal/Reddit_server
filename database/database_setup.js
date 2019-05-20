@@ -4,7 +4,13 @@ const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 let mongoose = require("mongoose");
 // POST SCHEMA
 let postSchema = new mongoose.Schema({
-  author: String,
+  author: {
+    id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User"
+    },
+    username: String
+  },
   created: Number,
   subreddit_prefix: String,
   url: String,
@@ -115,7 +121,10 @@ function saveToDatabase(postArray) {
 
 function addSinglePost(req, callback) {
   let fallback = "No fall_back",
-    author = "No Author Yet",
+     author = {
+       id: req.user._id,
+       username: req.user.username
+     },
     created = 0,
     subreddit_prefix = "No Subreddit Yet",
     url = req.body.url,
@@ -172,9 +181,7 @@ function addPostToDatabase(newPost, callback) {
     if (error) {
       console.log("SOMETHING WENT WRONG" + error);
     } else {
-      console.log("WE JUST SAVED A POST TO THE DATABASE");
-      console.log(post);
-      console.log(callback);
+      console.log(newPost)
       if(callback !== undefined){
         callback();
       }

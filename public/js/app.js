@@ -32,16 +32,16 @@ function setupToggleAndClicklistener() {
 
 // GET THE REDDIT RESPONSE
 function loadDoc() {
-  new Promise(function(resolve, reject){
+  new Promise(function (resolve, reject) {
     getJSON(resolve, reject)
   })
-  .then(data =>{
-    convertToJSON(data);
-  })
-  .catch(e =>{
-    console.log(e);
-  });
-  
+    .then(data => {
+      convertToJSON(data);
+    })
+    .catch(e => {
+      console.log(e);
+    });
+
 }
 
 
@@ -55,7 +55,7 @@ function convertToJSON(response) {
 
 //RETRIVES THE POST OBJECT FROM JSON RESPONSE
 function parseJsonToArray(jsonObject) {
-  let userInfo =jsonObject.pop();
+  let userInfo = jsonObject.pop();
 
   let returnArr = [];
   for (let i = 0; i < jsonObject.length; i++) {
@@ -71,7 +71,7 @@ function parseJsonToArray(jsonObject) {
     if (checkJsonProperty(jsonObject[i], "fallback")) {
       post.fallback_url = jsonObject[i]["fallback"];
     }
-    
+
     returnArr.push(post);
   }
   appendPostToList(returnArr, userInfo);
@@ -80,13 +80,17 @@ function parseJsonToArray(jsonObject) {
 function appendPostToList(arr, user) {
 
   // Set login status
-  if(user.user !== -1){
+  if (user.user !== -1) {
+    document.getElementById('user').style.visibility = "visible";
+    document.getElementById('user').innerText = `${user.user.username}`;
+
     document.getElementById("log-out-btn").style.visibility = "visible";
     document.getElementById("loginbtn").style.visibility = "hidden";
     document.getElementById("signupbtn").style.visibility = "hidden";
-  }else{
+  } else {
     document.getElementById("loginbtn").style.visibility = "visible";
     document.getElementById("signupbtn").style.visibility = "visible";
+    document.getElementById('user').style.visibility = "hidden";
     document.getElementById("log-out-btn").style.visibility = "hidden";
   }
 
@@ -186,13 +190,19 @@ function createPostHeader(postInfo) {
 
   // Posted Text
   let redditPostedText = document.createElement("span");
-  redditPostedText.innerText = "Posted by";
+  redditPostedText.innerText = "Posted by ";
   redditPostedText.classNamem = "pr-2";
   header.appendChild(redditPostedText);
 
   //Post Author
   let postAuthor = document.createElement("span");
-  postAuthor.innerText = postInfo["author"];
+  let authorName = postInfo["author"];
+  if (typeof authorName === 'string' || authorName instanceof String) {
+    postAuthor.innerText = postInfo["author"];
+  }else{
+    postAuthor.innerText = postInfo.author.username;
+  }
+
   postAuthor.className = "pr-2";
   header.appendChild(postAuthor);
 
@@ -269,10 +279,10 @@ function createPostBody(postInfo) {
 function createPostFooter(id) {
   //Footer container
   let footer = document.createElement("div");
-  footer.className="post-list_post__post-container__footer post-list_post__post-container--padding";
-  
+  footer.className = "post-list_post__post-container__footer post-list_post__post-container--padding";
+
   let userInput = document.createElement("span");
-  userInput.className="share-section";
+  userInput.className = "share-section";
 
   // COMMENT SECTION
   let commentSpan = document.createElement("span");
@@ -284,7 +294,7 @@ function createPostFooter(id) {
 
   let commentText = document.createElement("span");
   commentText.innerText = "3.2k";
-  commentText.className ="mr-1"
+  commentText.className = "mr-1"
 
   let commentString = document.createElement("span");
   commentString.innerText = "Comments"
@@ -297,8 +307,8 @@ function createPostFooter(id) {
   let shareIcon = document.createElement("i");
   shareIcon.className = "fas fa-share";
 
-  let shareString =document.createElement("span");
-  shareString.innerText= "Share";
+  let shareString = document.createElement("span");
+  shareString.innerText = "Share";
   shareString.className = "ml-1";
 
   //SAVE SECTION
@@ -307,25 +317,25 @@ function createPostFooter(id) {
   let saveIcon = document.createElement("i");
   let saveString = document.createElement("span");
 
-  saveSection.className ="ml-2";
-  saveIcon.className ="far fa-bookmark";
+  saveSection.className = "ml-2";
+  saveIcon.className = "far fa-bookmark";
   saveString.innerText = "Save";
-  saveString.className ="ml-1";
+  saveString.className = "ml-1";
 
   //Edit post
   let editBtn = document.createElement("a");
   editBtn.setAttribute('href', `/index/${id}/edit`);
   editBtn.className = "btn btn-primary btn-sm float-right pr-3";
   editBtn.innerText = "Edit";
-  
+
 
   //Delete post
   let delBtn = document.createElement("a");
   delBtn.setAttribute('href', `/index/${id}/delete`);
   delBtn.className = "btn btn-danger btn-sm float-right ml-3";
   delBtn.innerText = "delete";
-  
-  
+
+
 
   //Append Comment section
   commentIconSpan.appendChild(commentIcon);
@@ -349,7 +359,7 @@ function createPostFooter(id) {
   //Append Edit/delete
   footer.appendChild(delBtn)
   footer.appendChild(editBtn)
-  
+
 
   footer.appendChild(userInput);
   return footer
