@@ -73,14 +73,14 @@ app.get("/index/:id/edit", (req, res) => {
 
     if (req.isAuthenticated()) {
         let id = req.params.id;
-        let callback = (post) => {
+        let callback = function passCallback(post){
             res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
             res.status(200)
                 .render("edit.ejs", { id: id, post: post });  
         }
         apiCall.getSiglePost(id, req, res,callback)
     } else {
-
+        res.redirect("/login");
     }
 });
 
@@ -95,7 +95,7 @@ app.post("/index/:id/edit", (req, res) => {
         res.status(200)
             .redirect("/");
     }
-    apiCall.updateSinglePost(id, url, post, callback)
+    apiCall.updateSinglePost(id, url, post, callback, req, res);
 
 });
 
@@ -108,7 +108,7 @@ app.get("/index/:id/delete", (req, res) => {
     let callback = (post) => {
         res.render('delete.ejs', { id: post.id, title: post.title });
     }
-    apiCall.getSiglePost(req.params.id, callback)
+    apiCall.getSiglePost(req.params.id, req, res , callback)
 
 
 });
@@ -120,7 +120,7 @@ app.post("/index/:id/delete", (req, res) => {
     let callback = () => {
         res.redirect('/');
     }
-    apiCall.deletePost(req.params.id, callback)
+    apiCall.deletePost(req.params.id, callback, res, req)
 
 });
 
@@ -189,7 +189,6 @@ function getTimeStamp() {
 
 app.listen(7000, () => {
     console.log("Reddit Server Started");
-
 });
 
 app.listen();

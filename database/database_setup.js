@@ -121,10 +121,10 @@ function saveToDatabase(postArray) {
 
 function addSinglePost(req, callback) {
   let fallback = "No fall_back",
-     author = {
-       id: req.user._id,
-       username: req.user.username
-     },
+    author = {
+      id: req.user._id,
+      username: req.user.username
+    },
     created = 0,
     subreddit_prefix = "No Subreddit Yet",
     url = req.body.url,
@@ -143,42 +143,41 @@ function addSinglePost(req, callback) {
   }
   let newPost = Post(postSetup);
   addPostToDatabase(newPost, callback);
-    
+
 }
 
-function getSiglePost(id, req, res, callback){
-  Post.findById(id, function(err, foundPost){
-    if(err){
+function getSiglePost(id, req, res, callback) {
+  Post.findById(id, function (err, foundPost) {
+    if (err) {
       // Could not find post
       console.log(err);
       res.redirect("/");
-    }else{
+    } else {
       // Do you own the post
-      if(foundPost.author.id.equals(req.user._id)){
+      if (foundPost.author.id.equals(req.user._id)) {
         callback(foundPost);
-      }else{
-        res.send("You do not have permission to do that!")
-      }      
+      } else {
+        res.send("You do not have permission to do that.");
+      }
     }
   })
 }
 
-function updateSinglePost(id,url,post, callback){
-  console.log("UPDATED INFORMATION");
-  console.log(post);
-  console.log(url);
-  console.log(id);
-
+function updateSinglePost(id, url, post, callback, req, res) {
   let object = {
     title: post,
     url: url
   }
-  Post.findByIdAndUpdate(id, object, (err, updatedPost)=>{
-    if(err){
-      console.log(err);      
-    }else{
-      console.log("Updated post: " + updatedPost);
-      callback();
+  Post.findByIdAndUpdate(id, object, (err, updatedPost) => {
+    if (err) {
+      console.log(err);
+      res.redirect("/");
+    } else {
+      if (updatedPost.author.id.equals(req.user._id)) {
+        callback();
+      } else {
+        res.send("You do not have permission to do that.");
+      }
     }
   });
 }
@@ -189,7 +188,7 @@ function addPostToDatabase(newPost, callback) {
       console.log("SOMETHING WENT WRONG" + error);
     } else {
       console.log(newPost)
-      if(callback !== undefined){
+      if (callback !== undefined) {
         callback();
       }
     }
@@ -198,12 +197,17 @@ function addPostToDatabase(newPost, callback) {
 
 
 // Delete Post from Database
-function deletePost(id, callback){
-  Post.findByIdAndDelete(id, (err, post)=>{
-    if(err){
+function deletePost(id, callback, res, req) {
+  Post.findByIdAndDelete(id, (err, post) => {
+    if (err) {
       console.log(err);
-    }else{
-      callback();
+      res.redirect("/");
+    } else {
+      if (post.author.id.equals(req.user._id)) {
+        callback();
+      } else {
+        res.send("You do not have permission to do that.");
+      }
     }
   })
 }
@@ -223,17 +227,27 @@ function retrievePost(callback, user) {
 
 function convertToJSON(jsonObject, callback, user) {
   let jsonConverted = JSON.parse(JSON.stringify(jsonObject));
-  
+
   let userOb = {}
-  if (user !== undefined && user !== null){
+  if (user !== undefined && user !== null) {
     userOb["user"] = user;
-  }else{
+  } else {
     userOb["user"] = -1;
   }
   jsonConverted.push(userOb);
   let jsonString = JSON.stringify(jsonConverted);
   callback(jsonString);
 }
+
+function checkPostOwnership(result, req, res, callback) {
+  if (result.author.id.equals(req.user._id)) {
+    callback();
+  } else {
+    res.send("You do not have permission to do that.");
+  }
+}
+
+
 module.exports = {
   retrievePost,
   addSinglePost,
