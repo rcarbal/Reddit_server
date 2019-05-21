@@ -146,12 +146,19 @@ function addSinglePost(req, callback) {
     
 }
 
-function getSiglePost(id, callback){
+function getSiglePost(id, req, res, callback){
   Post.findById(id, function(err, foundPost){
     if(err){
+      // Could not find post
       console.log(err);
+      res.redirect("/");
     }else{
-      callback(foundPost);
+      // Do you own the post
+      if(foundPost.author.id.equals(req.user._id)){
+        callback(foundPost);
+      }else{
+        res.send("You do not have permission to do that!")
+      }      
     }
   })
 }
