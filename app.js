@@ -193,7 +193,7 @@ app.get("/logout", (req, res) => {
 //==========================================
 
 
-app.get("/index/:id/comments/new", function (req, res) {
+app.get("/index/:id/comments/new",isLoggedIn,  function (req, res) {
     console.log("200 HTTP GET NEW COMMENT Request was made " + getTimeStamp());
     Post.findById(req.params.id, function (err, post) {
         if (err) {
@@ -204,7 +204,7 @@ app.get("/index/:id/comments/new", function (req, res) {
     });
 });
 
-app.post("/index/:id/comments/new", function (req, res) {
+app.post("/index/:id/comments/new",isLoggedIn, function (req, res) {
     console.log("200 HTTP POST COMMENT Request was made " + getTimeStamp());
     Post.findById(req.params.id, function (err, post) {
         if (err) {
@@ -213,8 +213,13 @@ app.post("/index/:id/comments/new", function (req, res) {
         } else {
             Comment.create(req.body.comment, function (err, comment) {
                 if (err) {
-
+                    console.log(err);
                 } else {
+                    //Add user name and id to comment
+                    comment.author.id  = req.user._id;
+                    comment.author.username = req.user.username;
+                    comment.save();
+
                     post.comments.push(comment);
                     post.save();
                     res.redirect('/index/'+post._id);
@@ -225,7 +230,7 @@ app.post("/index/:id/comments/new", function (req, res) {
 
 });
 
-app.get("/index/:id/comments/:comment_id/edit", function (req, res) {
+app.get("/index/:id/comments/:comment_id/edit",checkCommentOwnership, function (req, res) {
     console.log("200 HTTP-GET EDIT COMMENT Request was made " + getTimeStamp());
     Comment.findById(req.params.comment_id, function(err, foundComment){
         if (err) {
@@ -248,14 +253,41 @@ app.post("/index/:id/comments/:comment_id/edit", function(req, res){
 });
 
 
-app.delete("/index/:id/comments/:comment_id/delete", function(req, res){
-    res.send("THIS  IS THE DESTROY COMMENT ROUTE");
+app.delete("/index/:id/comments/:comment_id/delete",checkCommentOwnership, function(req, res){
+    Comment.findByIdAndRemove(req.params.comment_id, function(err){
+        if(err){
+            res.redirect("back");
+        }else{
+            res.redirect("/index/" + req.params.id);
+        }
+    });
 });
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
     }
     res.redirect("/login")
+}
+
+function checkCommentOwnership(req, res, next){
+    // Fist check if any user is logged in 
+    if(req.isAuthenticated()){
+        Comment.findById(req.params.comment_id, function(err, foundComment){
+            if(err){
+                res.redirect("back");
+            }else{
+                // Does the user own the comment
+                console.log(foundComment);
+                if(foundComment.author.id.equals(req.user._id)){
+                    next();
+                }else{
+                    res.redirect("back");
+                }
+            }
+        });
+    }else{
+        res.redirect("/login");
+    }
 }
 
 function getTimeStamp() {

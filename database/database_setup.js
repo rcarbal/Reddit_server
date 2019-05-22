@@ -32,7 +32,10 @@ function convertToJSONObjects(response) {
   let returnArr = [];
   for (let i = 0; i < arr.length; i++) {
     let post = {};
-    post.author = arr[i]["data"]["author"];
+    post.author = {
+      id: undefined,
+      username: arr[i]["data"]["author"]
+    };
     post.created = arr[i]["data"]["created"];
     post.subreddit_name_prefixed = arr[i]["data"]["subreddit_name_prefixed"];
     post.url = arr[i]["data"]["url"];
@@ -46,6 +49,7 @@ function convertToJSONObjects(response) {
     returnArr.push(post);
   }
 
+  
   // Save to Database
   saveToDatabase(returnArr);
 
@@ -97,7 +101,7 @@ function saveToDatabase(postArray) {
 
     // Created post from schema
     let newPost = Post(postSetup);
-    addPostToDatabase(newPost);
+     addPostToDatabase(newPost);
   }
 }
 
