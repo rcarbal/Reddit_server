@@ -50,8 +50,16 @@ app.get("/index/json", (req, res) => {
     apiCall.retrievePost(sendResponse, user);
 });
 
-app.get('/index/:id', function(req, res){
-    res.send("This is the comment section.");
+app.get("/index/:id", function(req, res){
+    console.log("200 HTTP GET COMMENTS BY ID Request was made " + getTimeStamp());
+    Post.findById(req.params.id).populate("comments").exec(function(err, foundPost){
+        if(err){
+            console.log(err);
+            res.redirect("/");
+        }else{
+            res.render("posts/post", {post: foundPost});
+        }
+    });
 });
 
 
@@ -183,17 +191,6 @@ app.get("/logout", (req, res) => {
 //=========================================
 // Comments Route
 //==========================================
-app.get("/index/:id/comments", function(req, res){
-    console.log("200 HTTP GET COMMENTS BY ID Request was made " + getTimeStamp());
-    Post.findById(req.params.id).populate("comments").exec(function(err, foundPost){
-        if(err){
-            console.log(err);
-            res.redirect("/");
-        }else{
-            res.render("comments/comments", {post: foundPost});
-        }
-    });
-});
 
 
 app.get("/index/:id/comments/new", function (req, res) {
@@ -208,6 +205,7 @@ app.get("/index/:id/comments/new", function (req, res) {
 });
 
 app.post("/index/:id/comments/new", function (req, res) {
+    console.log("200 HTTP POST COMMENT Request was made " + getTimeStamp());
     Post.findById(req.params.id, function (err, post) {
         if (err) {
             console.log(err);
@@ -227,6 +225,32 @@ app.post("/index/:id/comments/new", function (req, res) {
 
 });
 
+app.get("/index/:id/comments/:comment_id/edit", function (req, res) {
+    console.log("200 HTTP-GET EDIT COMMENT Request was made " + getTimeStamp());
+    Comment.findById(req.params.comment_id, function(err, foundComment){
+        if (err) {
+            console.log(err);
+        } else {
+            res.render("comments/edit", {post: req.params.id, comment: foundComment});
+        }
+    });
+});
+
+app.post("/index/:id/comments/:comment_id/edit", function(req, res){
+    console.log("200 HTTP-POST EDIT COMMENT Request was made " + getTimeStamp());
+    Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, updatedComment){
+        if(err){
+            res.redirect("back");
+        }else{
+            res.redirect("/index/"+ req.params.id);
+        }
+    });
+});
+
+
+app.delete("/index/:id/comments/:comment_id/delete", function(req, res){
+    res.send("THIS  IS THE DESTROY COMMENT ROUTE");
+});
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
         return next();

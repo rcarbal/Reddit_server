@@ -299,7 +299,7 @@ function createPostFooter(id, comments) {
   commentText.className = "mr-1"
 
   let commentString = document.createElement("a");
-  commentString.setAttribute('href', `/index/${id}/comments`);
+  commentString.setAttribute('href', `/index/${id}`);
   commentString.innerText = "Comments"
 
   // SHARED SECTION
