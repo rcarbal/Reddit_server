@@ -1,0 +1,28 @@
+<% include ../partials/header %>
+
+<div><%= post %> </div>
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <div class="display-4"><%= post.title %></div>
+        <% if(post.hint === "image"){%>
+        <img src="<%= post.url %>" class="img-fluid" alt="Responsive image">
+        <% }else if(post.hint === "link"){%>
+        <p>LINK</p>
+        <% }else if(post.hint === "hosted:video"){%>
+        <iframe src="<%= post.fallback %>"></iframe>
+        <%}%>
+    </div>
+    <a class="btn btn-primary" href="/index/id:/comment/new">New Comment</a>
+</div>
+
+<div>
+    <% post.comments.forEach(function(comment){%>
+        <p>
+            <strong> <%= comment.author%> - <%= comment.text %></strong>
+        </p>
+    <% }); %>
+</div>
+
+<a href="/">Back</a>
+
+<% include ../partials/footer %>

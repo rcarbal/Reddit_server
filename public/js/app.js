@@ -61,6 +61,7 @@ function parseJsonToArray(jsonObject) {
   for (let i = 0; i < jsonObject.length; i++) {
     let post = {};
     post.author = jsonObject[i]["author"];
+    post.comments = jsonObject[i]["comments"];
     post._id = jsonObject[i]["_id"];
     post.created = jsonObject[i]["created"];
     post.subreddit_name_prefixed = jsonObject[i]["subreddit_prefix"];
@@ -101,7 +102,7 @@ function appendPostToList(arr, user) {
     let vote = createPostVote()
     let postInfo = createPostInfoSection(arr[i])
     let postBody = createPostBody(arr[i]);
-    let postFooter = createPostFooter(arr[i]["_id"])
+    let postFooter = createPostFooter(arr[i]["_id"], arr[i]["comments"])
 
     post.appendChild(vote);
     post.appendChild(postInfo);
@@ -276,7 +277,8 @@ function createPostBody(postInfo) {
 
 }
 
-function createPostFooter(id) {
+function createPostFooter(id, comments) {
+
   //Footer container
   let footer = document.createElement("div");
   footer.className = "post-list_post__post-container__footer post-list_post__post-container--padding";
@@ -293,11 +295,11 @@ function createPostFooter(id) {
   commentIcon.className = "fas fa-comment-alt"
 
   let commentText = document.createElement("span");
-  commentText.innerText = "3.2k";
+  commentText.innerText = `${comments.length}`;
   commentText.className = "mr-1"
 
   let commentString = document.createElement("a");
-  commentString.setAttribute('href', `/index/${id}/comments/new`);
+  commentString.setAttribute('href', `/index/${id}/comments`);
   commentString.innerText = "Comments"
 
   // SHARED SECTION

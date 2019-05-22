@@ -183,6 +183,18 @@ app.get("/logout", (req, res) => {
 //=========================================
 // Comments Route
 //==========================================
+app.get("/index/:id/comments", function(req, res){
+    console.log("200 HTTP GET COMMENTS BY ID Request was made " + getTimeStamp());
+    Post.findById(req.params.id).populate("comments").exec(function(err, foundPost){
+        if(err){
+            console.log(err);
+            res.redirect("/");
+        }else{
+            res.render("comments/comments", {post: foundPost});
+        }
+    });
+});
+
 
 app.get("/index/:id/comments/new", function (req, res) {
     console.log("200 HTTP GET NEW COMMENT Request was made " + getTimeStamp());
