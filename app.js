@@ -258,6 +258,14 @@ app.delete("/index/:id/comments/:comment_id/delete",checkCommentOwnership, funct
         if(err){
             res.redirect("back");
         }else{
+            Post.findOne({'_id': req.params.id}, function(err, post){
+                if(err){
+                    console.log(err);
+                }else{
+                    post.comments.remove(req.params.comment_id);
+                    post.save();
+                }
+            });
             res.redirect("/index/" + req.params.id);
         }
     });
