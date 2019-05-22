@@ -296,7 +296,8 @@ function createPostFooter(id) {
   commentText.innerText = "3.2k";
   commentText.className = "mr-1"
 
-  let commentString = document.createElement("span");
+  let commentString = document.createElement("a");
+  commentString.setAttribute('href', `/index/${id}/comments/new`);
   commentString.innerText = "Comments"
 
   // SHARED SECTION

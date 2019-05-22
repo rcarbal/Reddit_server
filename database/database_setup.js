@@ -1,31 +1,13 @@
 const apiCall = require('../api_call/call_reddit_api.js');
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+const Post = require('../model/post')
+const mongoose = require("mongoose");
 
-let mongoose = require("mongoose");
-// POST SCHEMA
-let postSchema = new mongoose.Schema({
-  author: {
-    id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User"
-    },
-    username: String
-  },
-  created: Number,
-  subreddit_prefix: String,
-  url: String,
-  title: String,
-  hint: String,
-  thumbnail: String,
-  fallback: String
-});
+
 
 // DATABASE CONNECT
-let Post = mongoose.model("Post", postSchema);
 mongoose.connect("mongodb://localhost:27017/reddit_posts", { useNewUrlParser: true }, () => {
   console.log("Connected to MongoDB");
-  //loadDoc();
-  //retrievePost();
 });
 
 // Get response api respinse

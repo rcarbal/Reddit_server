@@ -5,9 +5,10 @@ const express = require('express'),
     LocalStrategry = require('passport-local'),
     methodOverride = require("method-override"),
     bodyParser = require("body-parser"),
-    flash = require("connect-flash");
-User = require("./model/user.js"),
-    path = require('path'),
+    flash = require("connect-flash"),
+    User = require("./model/user.js"),
+    Post = require('./model/post.js'),
+    Comment = require("./model/comment"),
     app = express();
 
 app.set("view engine", "ejs");
@@ -49,6 +50,10 @@ app.get("/index/json", (req, res) => {
     apiCall.retrievePost(sendResponse, user);
 });
 
+app.get('/index/:id', function(req, res){
+    res.send("This is the comment section.");
+});
+
 
 // ROUTE ADD NEW POST
 app.get("/index/new", isLoggedIn, (req, res) => {
@@ -73,12 +78,12 @@ app.get("/index/:id/edit", (req, res) => {
 
     if (req.isAuthenticated()) {
         let id = req.params.id;
-        let callback = function passCallback(post){
+        let callback = function passCallback(post) {
             res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
             res.status(200)
-                .render("edit.ejs", { id: id, post: post });  
+                .render("edit.ejs", { id: id, post: post });
         }
-        apiCall.getSiglePost(id, req, res,callback)
+        apiCall.getSiglePost(id, req, res, callback)
     } else {
         res.redirect("/login");
     }
@@ -108,7 +113,7 @@ app.get("/index/:id/delete", (req, res) => {
     let callback = (post) => {
         res.render('delete.ejs', { id: post.id, title: post.title });
     }
-    apiCall.getSiglePost(req.params.id, req, res , callback)
+    apiCall.getSiglePost(req.params.id, req, res, callback)
 
 
 });
@@ -172,6 +177,42 @@ app.get("/logout", (req, res) => {
     console.log("200 HTTP GET LOGOUT Request was made " + getTimeStamp());
     req.logout();
     res.redirect("/");
+});
+
+
+//=========================================
+// Comments Route
+//==========================================
+
+app.get("/index/:id/comments/new", function (req, res) {
+    console.log("200 HTTP GET NEW COMMENT Request was made " + getTimeStamp());
+    Post.findById(req.params.id, function (err, post) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.render("comments/new", { post: post })
+        }
+    });
+});
+
+app.post("/index/:id/comments/new", function (req, res) {
+    Post.findById(req.params.id, function (err, post) {
+        if (err) {
+            console.log(err);
+            res.redirec("/");
+        } else {
+            Comment.create(req.body.comment, function (err, comment) {
+                if (err) {
+
+                } else {
+                    post.comments.push(comment);
+                    post.save();
+                    res.redirect('/index/'+post._id);
+                }
+            });
+        }
+    });
+
 });
 
 function isLoggedIn(req, res, next) {
