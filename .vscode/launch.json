@@ -8,7 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}\\database\\database_setup.js"
+            "program": "${workspaceFolder}\\app.js"
         }
     ]
 }

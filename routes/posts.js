@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Post = require('../model/post');
+const apiCall = require('../database/database_setup');
 
 //JSON RESPONSE ROUTE
 router.get("/index/json", (req, res) => {
@@ -14,8 +15,26 @@ router.get("/index/json", (req, res) => {
     apiCall.retrievePost(sendResponse, user);
 });
 
+// ROUTE ADD NEW POST
+router.get("/index/new", isLoggedIn, (req, res) => {
+    console.log("200 HTTP GET NEW POST Request was made " + getTimeStamp());
+    res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
+    res.status(200)
+        .render("new.ejs")
+});
+
+
+router.post("/index/new", isLoggedIn, (req, res) => {
+    console.log("200 HTTP POST NEW Post Request was made " + getTimeStamp());
+    let callback = () => {
+        res.redirect("/");
+    }
+    apiCall.addSinglePost(req, callback)
+
+});
+
 router.get("/index/:id", function(req, res){
-    console.log("200 HTTP GET COMMENTS BY ID Request was made " + getTimeStamp());
+    console.log("200 HTTP GET POST INFO BY ID Request was made " + getTimeStamp());
     Post.findById(req.params.id).populate("comments").exec(function(err, foundPost){
         if(err){
             console.log(err);
@@ -27,22 +46,6 @@ router.get("/index/:id", function(req, res){
 });
 
 
-// ROUTE ADD NEW POST
-router.get("/index/new", isLoggedIn, (req, res) => {
-    console.log("200 HTTP GET NEW POST Request was made " + getTimeStamp());
-    res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
-    res.status(200)
-        .render("new.ejs")
-});
-
-router.post("/index/new", isLoggedIn, (req, res) => {
-    console.log("200 HTTP POST NEW Post Request was made " + getTimeStamp());
-    let callback = () => {
-        res.redirect("/");
-    }
-    apiCall.addSinglePost(req, callback)
-
-});
 
 // ROUTE EDIT POST
 router.get("/index/:id/edit", (req, res) => {
@@ -106,5 +109,10 @@ function isLoggedIn(req, res, next) {
     }
     res.redirect("/login")
 }
+
+function getTimeStamp() {
+    var currentDate = new Date();
+    return currentDate;
+};
 
 module.exports = router;

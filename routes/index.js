@@ -2,13 +2,15 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const User = require('../model/user');
+var path = require('path');
+var appDir = path.dirname(require.main.filename);
 
 router.get("/", (req, res) => {
     console.log(req.user);
     console.log("200 HTTP GET NEW POST Request was made " + getTimeStamp());
     res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
     res.status(200)
-    res.sendFile('public/static_index.html', { root: __dirname });
+    res.sendFile('./public/static_index.html', { root: appDir });
 });
 
 //show register
@@ -55,12 +57,9 @@ router.get("/logout", (req, res) => {
     res.redirect("/");
 });
 
-
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect("/login")
-}
+function getTimeStamp() {
+    var currentDate = new Date();
+    return currentDate;
+};
 
 module.exports = router;

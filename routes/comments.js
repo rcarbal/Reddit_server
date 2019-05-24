@@ -97,7 +97,6 @@ function checkCommentOwnership(req, res, next){
                 res.redirect("back");
             }else{
                 // Does the user own the comment
-                console.log(foundComment);
                 if(foundComment.author.id.equals(req.user._id)){
                     next();
                 }else{
@@ -109,5 +108,10 @@ function checkCommentOwnership(req, res, next){
         res.redirect("/login");
     }
 }
+
+function getTimeStamp() {
+    var currentDate = new Date();
+    return currentDate;
+};
 
 module.exports = router;
