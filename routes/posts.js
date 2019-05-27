@@ -1,7 +1,8 @@
-const express = require('express');
-const router = express.Router();
-const Post = require('../model/post');
-const apiCall = require('../database/database_setup');
+const express = require('express'),
+      router = express.Router(),
+      Post = require('../model/post'),
+      apiCall = require('../database/database_setup'),
+      getTimeStamp = require('../utls/time_utils');
 
 //JSON RESPONSE ROUTE
 router.get("/index/json", (req, res) => {
@@ -109,10 +110,5 @@ function isLoggedIn(req, res, next) {
     }
     res.redirect("/login")
 }
-
-function getTimeStamp() {
-    var currentDate = new Date();
-    return currentDate;
-};
 
 module.exports = router;

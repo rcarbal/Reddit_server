@@ -1,7 +1,8 @@
 const express = require('express');
-const router = express.Router();
-const Post = require('../model/post');
-const Comment = require('../model/comment');
+      router = express.Router(),
+      Post = require('../model/post'),
+      Comment = require('../model/comment'),
+      getTimeStamp = require('../utls/time_utils');
 
 
 router.get("/index/:id/comments/new",isLoggedIn,  function (req, res) {
@@ -108,10 +109,4 @@ function checkCommentOwnership(req, res, next){
         res.redirect("/login");
     }
 }
-
-function getTimeStamp() {
-    var currentDate = new Date();
-    return currentDate;
-};
-
 module.exports = router;

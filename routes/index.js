@@ -1,9 +1,10 @@
-const express = require('express');
-const router = express.Router();
-const passport = require('passport');
-const User = require('../model/user');
-var path = require('path');
-var appDir = path.dirname(require.main.filename);
+const express = require('express'),
+      passport = require('passport'),
+      router = express.Router(),
+      User = require('../model/user'),
+      path = require('path'),
+      appDir = path.dirname(require.main.filename),
+      getTimeStamp = require('../utls/time_utils');
 
 router.get("/", (req, res) => {
     console.log(req.user);
@@ -56,10 +57,5 @@ router.get("/logout", (req, res) => {
     req.logout();
     res.redirect("/");
 });
-
-function getTimeStamp() {
-    var currentDate = new Date();
-    return currentDate;
-};
 
 module.exports = router;
